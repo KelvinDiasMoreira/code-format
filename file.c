@@ -1,18 +1,29 @@
 #include "file.h"
 
-file_handler_t get_file_handler(char *path)
+file_handler_t *get_file_handler(char *path)
 {
-    file_handler_t file = {0};
-    if((file.fptr = fopen(path, "r+")) == NULL){
-        file.error = 1;
+    file_handler_t *file = malloc(sizeof(file_handler_t));
+    if(file == NULL){
+        printf("Failed to allocated memory\n");
+        exit(1);
     }
-    printf("path >>> %s\n", path);
-    printf("ptr to file >>> %p\n", file.fptr);
+    if((file->fptr = fopen(path, "r+")) == NULL){
+        printf("Failed to open file\n");
+        free(file);
+        exit(EXIT_FAILURE);
+    }
+    get_file_size(file);
     return file;
 }
 
-void close_handler(file_handler_t file)
+void get_file_size(file_handler_t *file)
 {
-    printf("closing handler ptr >>> %p, with error >>> %d\n", file.fptr, file.error);
-    fclose(file.fptr);
+    fseek(file->fptr, 0, SEEK_END);
+    file->file_size = ftell(file->fptr);
+    fseek(file->fptr, 0, SEEK_SET);
+}
+
+void close_file_handler(file_handler_t *file)
+{
+    fclose(file->fptr);
 }
