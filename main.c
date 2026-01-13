@@ -4,25 +4,31 @@
 int main()
 {
     int getcInt;
-    int currentPosBuffer = 0, lines = 0;
     file_handler_t *file = get_file_handler("program.c");
-    // while ((getcInt = getc(file->fptr)) != EOF)
-    // {
-    //     if(currentPosBuffer == BUFFER_SIZE) {
-    //         printf("buffer limit reached\n");
-    //         close_file_handler(file);
-    //         return 1;
-    //     }
-    //     if(getcInt == '\n'){
-    //         currentPosBuffer = 0;
-    //         printf("%s", buffer);
-    //         initializeArr(buffer);
-    //         lines++;
-    //     }
-    //     buffer[currentPosBuffer] = getcInt;
-    //     currentPosBuffer++;
-    // }
+    char *buffer = malloc(sizeof(char) * file->file_size);
+    for(int i = 0 ; i < file->file_size; i++){
+        buffer[i] = '-';
+    }
+    buffer[file->file_size] = '\0';
+    
+    int i = 0;
+    if(buffer == NULL)
+    {
+        printf("Failed to allocated memory\n");
+        close_file_handler(file);
+        free(file);
+        return 1;
+    }
+    while ((getcInt = getc(file->fptr)) != EOF)
+    {
+        buffer[i] = getcInt;
+        i++;
+    }
+    printf("%s", buffer);
     close_file_handler(file);
     free(file);
+    free(buffer);
     return 0;
 }
+
+// HELLS PARADISE
