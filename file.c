@@ -12,15 +12,55 @@ file_handler_t *get_file_handler(char *path)
         free(file);
         exit(EXIT_FAILURE);
     }
-    get_file_size(file);
+    if(get_file_size(file) != 0)
+    {
+        printf("Failed to get file size\n");
+        close_file_handler(file);
+        free(file);
+        exit(EXIT_FAILURE); 
+    }
+    if(allocate_buffer(file) != 0)
+    {
+        printf("Failed to allocated memory to buffer\n");
+        close_file_handler(file);
+        free(file);
+        exit(EXIT_FAILURE);
+    }
     return file;
 }
 
-void get_file_size(file_handler_t *file)
+int allocate_buffer(file_handler_t *file)
 {
-    fseek(file->fptr, 0, SEEK_END);
-    file->file_size = ftell(file->fptr);
-    fseek(file->fptr, 0, SEEK_SET);
+    char *buffer_aloc = malloc(sizeof(char) * file->file_size);
+    if(buffer_aloc == NULL)
+        return -1;
+    file->buffer = buffer_aloc;
+    init_buffer(file);
+    return 0;
+}
+
+void init_buffer(file_handler_t *file)
+{
+    for(int i = 0 ; i < file->file_size; i++){
+        file->buffer[i] = '-';
+    }
+    file->buffer[file->file_size] = '\0';
+}
+
+int get_file_size(file_handler_t *file)
+{
+    // TODO: added possibility to use <sys/stat.h> if available
+    if(!file || !file->fptr)
+        return -1;
+    if(fseek(file->fptr, 0, SEEK_END) != 0)
+        return -1;
+    long size = ftell(file->fptr);
+    if(size < 0)
+        return -1;
+    if(fseek(file->fptr, 0, SEEK_SET) != 0)
+        return -1;
+    file->file_size = size;
+    return 0;
 }
 
 void close_file_handler(file_handler_t *file)
