@@ -10,4 +10,4 @@ typedef struct FILE_HANDLER {
 file_handler_t *get_file_handler(char *path);
 int allocate_buffer(file_handler_t *file);
 int get_file_size(file_handler_t *file);
-void close_file_handler(file_handler_t *file);
+void close_file_handler(const file_handler_t *file);

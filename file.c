@@ -5,7 +5,7 @@ file_handler_t *get_file_handler(char *path)
     file_handler_t *file = malloc(sizeof(file_handler_t));
     if(file == NULL){
         printf("Failed to allocated memory\n");
-        exit(1);
+        exit(EXIT_FAILURE);
     }
     if((file->fptr = fopen(path, "r+")) == NULL){
         printf("Failed to open file\n");
@@ -33,7 +33,7 @@ int allocate_buffer(file_handler_t *file)
 {
     int curr_char;
     long i = 0;
-    char *buffer_aloc = malloc(sizeof(char) * file->file_size);
+    char *buffer_aloc = malloc(sizeof(char) * (file->file_size + 1));
     if(buffer_aloc == NULL)
         return -1;
     file->buffer = buffer_aloc;
@@ -65,7 +65,7 @@ int get_file_size(file_handler_t *file)
     return 0;
 }
 
-void close_file_handler(file_handler_t *file)
+void close_file_handler(const file_handler_t *file)
 {
     fclose(file->fptr);
 }
