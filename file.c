@@ -31,20 +31,22 @@ file_handler_t *get_file_handler(char *path)
 
 int allocate_buffer(file_handler_t *file)
 {
+    int curr_char;
+    long i = 0;
     char *buffer_aloc = malloc(sizeof(char) * file->file_size);
     if(buffer_aloc == NULL)
         return -1;
     file->buffer = buffer_aloc;
-    init_buffer(file);
-    return 0;
-}
-
-void init_buffer(file_handler_t *file)
-{
     for(int i = 0 ; i < file->file_size; i++){
         file->buffer[i] = '-';
     }
     file->buffer[file->file_size] = '\0';
+    while ((curr_char = getc(file->fptr)) != EOF)
+    {
+        file->buffer[i] = curr_char;
+        i++;
+    }
+    return 0;
 }
 
 int get_file_size(file_handler_t *file)
