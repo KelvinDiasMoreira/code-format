@@ -1,0 +1,1 @@
+char *alloc_string(long size);
