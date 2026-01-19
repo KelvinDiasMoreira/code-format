@@ -1,6 +1,6 @@
 CC = gcc
-TARGET = compiled
-SOURCES = main.c file.c
+TARGET = build/c-format
+SOURCES = main.c file.c alloc.c
 
 default: 
 	cls

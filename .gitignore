@@ -1,2 +1,5 @@
-compiled.exe
+# build
+build/*
+
+# TODO: will be removed after
 program.c
