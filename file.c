@@ -15,18 +15,19 @@ file_handler_t *get_file_handler(char *path)
     if(get_file_size(file) != 0)
     {
         printf("Failed to get file size\n");
-        close_file_handler(file);
-        free(file);
-        exit(EXIT_FAILURE); 
+        goto exit; 
     }
     if(allocate_buffer(file) != 0)
     {
         printf("Failed to allocated memory to buffer\n");
+        goto exit;
+    }
+    return file;
+
+    exit:
         close_file_handler(file);
         free(file);
         exit(EXIT_FAILURE);
-    }
-    return file;
 }
 
 int allocate_buffer(file_handler_t *file)
