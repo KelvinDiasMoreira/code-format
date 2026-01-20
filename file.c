@@ -1,4 +1,5 @@
 #include "file.h"
+#include "alloc.h"
 
 file_handler_t *get_file_handler(char *path)
 {
@@ -7,7 +8,7 @@ file_handler_t *get_file_handler(char *path)
         printf("Failed to allocated memory\n");
         exit(EXIT_FAILURE);
     }
-    if((file->fptr = fopen(path, "r+")) == NULL){
+    if((file->fptr = fopen(path, "rb")) == NULL){
         printf("Failed to open file\n");
         free(file);
         exit(EXIT_FAILURE);
@@ -32,21 +33,8 @@ file_handler_t *get_file_handler(char *path)
 
 int allocate_buffer(file_handler_t *file)
 {
-    int curr_char;
-    long i = 0;
-    char *buffer_aloc = malloc(sizeof(char) * (file->file_size + 1));
-    if(buffer_aloc == NULL)
-        return -1;
-    file->buffer = buffer_aloc;
-    for(int i = 0 ; i < file->file_size; i++){
-        file->buffer[i] = '-';
-    }
-    file->buffer[file->file_size] = '\0';
-    while ((curr_char = getc(file->fptr)) != EOF)
-    {
-        file->buffer[i] = curr_char;
-        i++;
-    }
+    file->buffer = alloc_string(file->file_size);
+    fread(file->buffer, 1, file->file_size, file->fptr);
     return 0;
 }
 

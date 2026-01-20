@@ -4,5 +4,5 @@ SOURCES = main.c file.c alloc.c
 
 default: 
 	cls
-	$(CC) -Wall -Wextra $(SOURCES) -o $(TARGET)
+	$(CC) -Wall -Wextra -Werror $(SOURCES) -o $(TARGET)
 	.\$(TARGET)
