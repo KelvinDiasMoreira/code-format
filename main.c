@@ -19,9 +19,6 @@ int main()
     printf("%s\n", file->buffer);
     printf("------------------OLD BUFF--------------------------------\n");
     while (*file->buffer != '\0'){
-        /*
-            Current char
-        */
         char cc = *file->buffer;
         switch (cc) {
             case ' ':
@@ -61,16 +58,13 @@ int main()
                             } else {
                                 int calc = f.lsp & IDS;
                                 if(calc == 0){
-                                    /*
-                                        pre-calc;
-                                    */
                                     int pc = f.lsp/IDS;
                                     for(int i=0;i<pc;i++){
                                         buffer[f.bp] = '\t';
                                         f.bp++;
                                     }
                                 } else {
-                                    printf("TODO: IDENTATION, LINE SPACE: %d, %d\n", f.lsp, calc);
+                                    printf("TODO: IDENTATION, LINE SPACE: %d, (int calc = f.lsp & IDS): %d\n", f.lsp, calc);
                                 }
                             }
                         }
