@@ -1,5 +1,8 @@
 # build
 build/*
 
+# output
+output.c
+
 # TODO: will be removed after
 program.c
