@@ -23,12 +23,24 @@ file_handler_t *get_file_handler(char *path)
         printf("Failed to allocated memory to buffer\n");
         goto exit;
     }
+    close_file_handler(file);
     return file;
 
     exit:
         close_file_handler(file);
         free(file);
         exit(EXIT_FAILURE);
+}
+
+void write_file(char *path, char *buffer)
+{
+    FILE *fptr;
+    if((fptr = fopen(path, "w")) == NULL){
+        printf("Failed to write file\n");
+        exit(EXIT_FAILURE);
+    }
+    fprintf(fptr, buffer);
+    fclose(fptr);
 }
 
 int allocate_buffer(file_handler_t *file)
