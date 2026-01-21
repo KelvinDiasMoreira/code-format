@@ -1,3 +1,8 @@
+/*
+    Identation space
+*/
+#define IDS 4
+
 typedef struct FMT {
     /*
         Buffer position
