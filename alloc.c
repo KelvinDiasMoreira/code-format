@@ -3,7 +3,7 @@
 #include "alloc.h"
 
 char *alloc_string(long size){
-    char *alloc = malloc(size + 1);
+    char *alloc = calloc(size + 1, 1);
     if(alloc == NULL)
         exit(EXIT_FAILURE);
     alloc[size] = '\0';
