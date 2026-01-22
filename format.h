@@ -9,9 +9,9 @@ typedef struct FMT {
     */
     int bp;
     /*
-        Line space
+        Tree level
     */
-    int lsp;
+    int tlvl;
     /*
         Line
     */
