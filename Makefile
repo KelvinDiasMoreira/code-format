@@ -1,5 +1,5 @@
 CC = gcc
-TARGET = build/c-format
+TARGET = build/code-format
 SOURCES = main.c file.c alloc.c format.c
 
 default: 
