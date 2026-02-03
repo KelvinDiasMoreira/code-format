@@ -12,9 +12,6 @@ int main()
     char *buffer = alloc_string(file->file_size * 2);
     char *save_ptr_buffer = file->buffer;
     fmt_t ctx = {0};
-    printf("------------------OLD BUFF--------------------------------\n");
-    printf("%s\n", file->buffer);
-    printf("------------------OLD BUFF--------------------------------\n");
     while (*file->buffer != '\0'){
         char cc = *file->buffer;
         switch (cc) {
@@ -35,6 +32,46 @@ int main()
                 file->buffer++;
                 ctx.bp++;
                 ctx.l++;
+                if(ctx.tlvl > 0){
+                    int spc = 0;
+                    int csp = ctx.tlvl * IDS;
+                    /*
+                        if ctx.tlvl = 1, the identation must be 4 spaces
+                        int main()
+                        { -> (ctx.tlvl = 1)
+                                    (wrong)
+                                    int number = 1;
+                            (correct)
+                            int number = 1;      
+                        }
+                    */
+                    while (*file->buffer == ' '){
+                        if(spc < csp){
+                            spc++;
+                            file->buffer++;
+                        } 
+                    }
+                    /*
+                        TODO: if not have enough space, must put spaces
+                        int main()
+                        { -> (ctx.tlvl = 1)
+                            switch()
+                            { -> (ctx.tlvl = 2)
+                        (wrong)
+                        int number = 1;
+                                (correct)
+                                int number = 1;
+                            }
+                        }  
+                    */
+                    /*
+                        back to initial buffer position
+                    */
+                    while (spc > 0) {
+                        spc--;
+                        file->buffer--;
+                    }
+                }
                 break;
             case '(':
                 ctx.fn = 1;
@@ -67,7 +104,7 @@ int main()
                 /*
                     TODO: we need remove the "\r" ?
                     without this will duplicate the "/n", i don't know why
-                 */
+                */
                 if(cc == '\r'){
                     file->buffer++;
                     break;
@@ -78,9 +115,6 @@ int main()
         }
     }
     write_file(OUTPUT, buffer);
-    printf("------------------NEW BUFF--------------------------------\n");
-    printf("%s\n", buffer);
-    printf("------------------NEW BUFF--------------------------------\n");
     printf("------------------HEX BUFF--------------------------------\n");
     for(long i = 0;i<file->file_size*2;i++){
         if(buffer[i] == '\n'){
