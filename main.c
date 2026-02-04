@@ -49,7 +49,9 @@ int main()
                         if(spc < csp){
                             spc++;
                             file->buffer++;
-                        } 
+                        } else {
+                            file->buffer++;
+                        }
                     }
                     /*
                         TODO: if not have enough space, must put spaces
