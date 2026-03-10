@@ -33,44 +33,44 @@ int main()
                 ctx.bp++;
                 ctx.l++;
                 if(ctx.tlvl > 0){
-                    int spc = 0;
-                    int csp = ctx.tlvl * IDS;
-                    /*
-                        if ctx.tlvl = 1, the identation must be 4 spaces
-                        int main()
-                        { -> (ctx.tlvl = 1)
-                                    (wrong)
-                                    int number = 1;
-                            (correct)
-                            int number = 1;      
-                        }
-                    */
-                    while (*file->buffer == ' '){
-                        if(spc < csp){
-                            spc++;
-                            file->buffer++;
+                    int space_in_line = 0;
+                    int walk_count = 0;
+                    while (*file->buffer == ' ')
+                    {
+                        file->buffer++;
+                        space_in_line++;
+                        walk_count++;
+                    }
+                    /* We need put spaces */
+                    if(space_in_line < ctx.tlvl * IDS){
+                        /* 
+                            TODO: we need handle the space of bracket,
+                            maybe if subtract the ctx.tlvl to verify the position
+                        */
+                        if(*file->buffer == '}'){
+                            // printf("CHAR: %c\n", *file->buffer);
                         } else {
-                            file->buffer++;
+                            printf("LINE %d NEED SOME SPACE, CURRENT: %d, NEED: %d\n", ctx.l, space_in_line, ctx.tlvl * IDS);
+                            for(int i = space_in_line; i < ctx.tlvl * IDS; i++){
+                                buffer[ctx.bp] = ' ';
+                                ctx.bp++;
+                            }
                         }
                     }
-                    /*
-                        TODO: if not have enough space, must put spaces
-                        int main()
-                        { -> (ctx.tlvl = 1)
-                            switch()
-                            { -> (ctx.tlvl = 2)
-                        (wrong)
-                        int number = 1;
-                                (correct)
-                                int number = 1;
-                            }
-                        }  
-                    */
-                    /*
-                        back to initial buffer position
-                    */
-                    while (spc > 0) {
-                        spc--;
+                    /* We need remove spaces */ 
+                    else if(space_in_line > ctx.tlvl * IDS)
+                    {
+                        printf("LINE %d NEED REMOVE SOME SPACE, CURRENT: %d, NEED: %d\n", ctx.l, space_in_line, ctx.tlvl * IDS);
+                        printf("CHAR: %c\n", buffer[ctx.bp]);
+                        // file->buffer--;
+                        for(int i = space_in_line; i > ctx.tlvl * IDS; i--){
+                            // printf("AAA: %d\n", i);
+                            // file->buffer--;
+                        }
+                    }
+                    /* get back to initial buffer position */
+                    while (walk_count > 0) {
+                        walk_count--;
                         file->buffer--;
                     }
                 }
