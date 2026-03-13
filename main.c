@@ -1,4 +1,3 @@
-#include <ctype.h>
 #include "file.h"
 #include "alloc.h"
 #include "format.h"

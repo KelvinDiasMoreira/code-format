@@ -1,3 +1,4 @@
+#include <ctype.h>
 /*
     Identation space
 */
