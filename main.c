@@ -33,65 +33,19 @@ int main()
                 ctx.bp++;
                 ctx.l++;
                 if(ctx.tlvl > 0 && *file->buffer != '}'){ 
-                    // printf("CURRENT CHAR: %c IDENTATION: %d SPACETOADD: %d\n",*file->buffer, ctx.tlvl, ctx.tlvl * IDS);
-                    for(int i = 0; i < ctx.tlvl * IDS; i++){
-                        buffer[ctx.bp] = ' ';
-                        ctx.bp++;
-                    };
                     rts(&file->buffer);
-                    // int space_in_line = 0;
-                    // int walk_count = 0;
-                    // while (*file->buffer == ' ')
-                    // {
-                    //     file->buffer++;
-                    //     space_in_line++;
-                    //     walk_count++;
-                    // }
-                    // /* We need put spaces */
-                    // if(space_in_line < ctx.tlvl * IDS){
-                    //     /* 
-                    //         TODO: we need handle the space of bracket,
-                    //         maybe if subtract the ctx.tlvl to verify the position
-                    //     */
-                    //     if(*file->buffer == '}'){
-                    //         // printf("CHAR: %c\n", *file->buffer);
-                    //     } else {
-                    //         printf("LINE %d NEED SOME SPACE, CURRENT: %d, NEED: %d\n", ctx.l, space_in_line, ctx.tlvl * IDS);
-                    //         for(int i = space_in_line; i < ctx.tlvl * IDS; i++){
-                    //             buffer[ctx.bp] = ' ';
-                    //             ctx.bp++;
-                    //         }
-                    //     }
-                    // }
-                    // /* 
-                    //     We need remove spaces 
-                    //     TODO: fix hex string "D", causing a "\n"
-                    // */ 
-                    // else if(space_in_line > ctx.tlvl * IDS)
-                    // {
-                    //     printf("LINE %d NEED REMOVE SOME SPACE, CURRENT: %d, NEED: %d\n", ctx.l, space_in_line, ctx.tlvl * IDS);
-                    //     if(*file->buffer == '}'){
-                    //     } else {
-                    //         int space = 0;
-                    //         while (space < ctx.tlvl * IDS){
-                    //             buffer[ctx.bp] = ' ';
-                    //             ctx.bp++;
-                    //             space++;
-                    //         }
-                            // while (*file->buffer != '\n' && *file->buffer != '\0'){
-                            //     buffer[ctx.bp] = *file->buffer;
-                            //     ctx.bp++;
-                            //     file->buffer++;
-                            // }
-                    //         continue;
-                    //     }
-                    // }
-                    // /* get back to initial buffer position */
-                    // /* TODO: REMOVE THIS */
-                    // while (walk_count > 0) {
-                    //     walk_count--;
-                    //     file->buffer--;
-                    // }
+                    /* If we found "}" means that we need subtract 1 lvl of the three level to better identation */
+                    if(*file->buffer == '}'){
+                        for(int i=0;i<(ctx.tlvl - 1) * IDS; i++){
+                            buffer[ctx.bp] = ' ';
+                            ctx.bp++;
+                        }
+                    } else {
+                        for(int i = 0; i < ctx.tlvl * IDS; i++){
+                            buffer[ctx.bp] = ' ';
+                            ctx.bp++;
+                        };
+                    }
                 }
                 break;
             case '(':
