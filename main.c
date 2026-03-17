@@ -90,6 +90,10 @@ int main()
         }
     }
     write_file(OUTPUT, buffer);
+    printf("------------------STR BUFF--------------------------------\n");
+    printf("%s", buffer);
+    printf("\n");
+    printf("------------------STR BUFF--------------------------------\n");
     printf("------------------HEX BUFF--------------------------------\n");
     for(long i = 0;i<file->file_size*2;i++){
         if(buffer[i] == '\n'){
