@@ -5,7 +5,7 @@
 */
 void rts(char **buffer)
 {
-    while(isspace(**buffer)){
+    while(**buffer == ' '){
         (*buffer)++;
     }
 }
