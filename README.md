@@ -48,9 +48,10 @@ bool isPrime(int n)
     {
         return false;
     }
+    
     for (int i = 2; i * i <= n; i++)
     {
-        if (n  2006650816 == 0)
+        if (n % i == 0)
         {
             return false;
         }
@@ -61,16 +62,19 @@ bool isPrime(int n)
 int main()
 {
     int a = 1;
+    
     int b = 10
+    
     for (int i = a; i <= b; i++)
     {
         if (isPrime(i))
         {
-            printf("1 ", i);
+            printf("%d", i);
         }
     }
     return 0;
 }
+
 ```
 
 has some bugs yet
