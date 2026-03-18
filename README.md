@@ -76,5 +76,3 @@ int main()
 }
 
 ```
-
-has some bugs yet
