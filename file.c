@@ -32,14 +32,14 @@ file_handler_t *get_file_handler(char *path)
         exit(EXIT_FAILURE);
 }
 
-void write_file(char *path, char *buffer)
+void write_file(char *path, char *buffer, int size)
 {
     FILE *fptr;
     if((fptr = fopen(path, "w")) == NULL){
         printf("Failed to write file\n");
         exit(EXIT_FAILURE);
     }
-    fprintf(fptr, buffer);
+    fwrite(buffer, sizeof(char), size, fptr);
     fclose(fptr);
 }
 

@@ -89,7 +89,7 @@ int main()
                 ctx.bp++;
         }
     }
-    write_file(OUTPUT, buffer);
+    write_file(OUTPUT, buffer, ctx.bp);
     printf("------------------STR BUFF--------------------------------\n");
     printf("%s", buffer);
     printf("\n");
