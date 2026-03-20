@@ -1,8 +1,7 @@
 CC = gcc
 TARGET = build/code-format
 SOURCES = main.c file.c alloc.c format.c
-
-# TODO: create build folder if not exist
+BUILD_FOLDER=build
 
 ifeq ($(OS),Windows_NT)
 	CURR_OS := Windows
@@ -16,7 +15,11 @@ else
 endif
 
 default:
+	@if [ ! -d "build" ]; then \
+		mkdir -p "build"; \
+	fi
 	$(CLEAR_TAG)
+	@echo $(CHECK_RESULT)
 	@echo "CURR_OS -> $(CURR_OS)"
 	$(CC) -Wall -Wextra -Werror $(SOURCES) -o $(TARGET)
 	./$(TARGET)
