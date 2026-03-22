@@ -1,7 +1,16 @@
 #include "file.h"
 #include "alloc.h"
 #include "format.h"
-// \ //
+
+/*
+    Move buffer and file buffer
+*/
+void mbfb(char c, file_handler_t *f, fmt_t *ctx, char *b)
+{
+    b[ctx->bp] = c;
+    f->buffer++;
+    ctx->bp++;
+}
 
 int main()
 {
@@ -16,20 +25,14 @@ int main()
         switch (cc) {
             case '{':
                 ctx.tlvl++;
-                buffer[ctx.bp] = cc;
-                file->buffer++;
-                ctx.bp++;
+                mbfb(cc, file, &ctx, buffer);
                 break;
             case '}':
                 ctx.tlvl--;
-                buffer[ctx.bp] = cc;
-                file->buffer++;
-                ctx.bp++;
+                mbfb(cc, file, &ctx, buffer);
                 break;
             case '\n':
-                buffer[ctx.bp] = cc;
-                file->buffer++;
-                ctx.bp++;
+                mbfb(cc, file, &ctx, buffer);
                 ctx.l++;
                 if(ctx.tlvl > 0 && *file->buffer != '}'){ 
                     rts(&file->buffer);
@@ -49,14 +52,10 @@ int main()
                 break;
             case '(':
                 ctx.fn = 1;
-                buffer[ctx.bp] = cc;
-                file->buffer++;
-                ctx.bp++;
+                mbfb(cc, file, &ctx, buffer);
                 break;
             case ')':
-                buffer[ctx.bp] = cc;
-                file->buffer++;
-                ctx.bp++;
+                mbfb(cc, file, &ctx, buffer);
                 if(ctx.fn == 1){
                     rts(&file->buffer);
                     if(*file->buffer == '{'){
@@ -83,9 +82,7 @@ int main()
                     file->buffer++;
                     break;
                 }
-                buffer[ctx.bp] = cc;
-                file->buffer++;
-                ctx.bp++;
+                mbfb(cc, file, &ctx, buffer);
         }
     }
     write_file(OUTPUT, buffer, ctx.bp);
