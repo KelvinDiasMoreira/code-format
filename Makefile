@@ -24,8 +24,8 @@ endif
 endif
 
 default:
-	@if [ ! -d "build" ]; then \
-		mkdir -p "build"; \
+	@if [ ! -d "$(BUILD_FOLDER)" ]; then \
+		mkdir -p "$(BUILD_FOLDER)"; \
 	fi
 	$(CLEAR_TAG)
 	@echo $(CHECK_RESULT)
