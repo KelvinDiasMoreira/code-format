@@ -15,12 +15,14 @@ else
 	endif
 endif
 
-ifeq ($($(wildcard $(DEFAULT_FILE_TEST))),)
+all: $(DEFAULT_FILE_TEST) default
+
 ifeq ($(CURR_OS),Linux)
-$(shell echo -e "#include <stdio.h>\nint main()           {\nint size = 200;\n           int buffer_pos = 20;\n\nreturn 0;\n   }" > program.c)
+$(DEFAULT_FILE_TEST):
+	@echo -e "#include <stdio.h>\nint main()           {\nint size = 200;\n           int buffer_pos = 20;\n\nreturn 0;\n   }" > $@
 else
-$(error cant create automatically, you need create a initial file to test -> program.c)
-endif
+$(DEFAULT_FILE_TEST):
+	$(error cant create automatically, you need create a initial file to test -> program.c)
 endif
 
 default:
