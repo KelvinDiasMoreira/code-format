@@ -10,26 +10,20 @@ file_handler_t *get_file_handler(char *path)
     }
     if((file->fptr = fopen(path, "rb")) == NULL){
         printf("Failed to open file\n");
-        free(file);
         exit(EXIT_FAILURE);
     }
     if(get_file_size(file) != 0)
     {
         printf("Failed to get file size\n");
-        goto exit; 
+        exit(EXIT_FAILURE); 
     }
     if(allocate_buffer(file) != 0)
     {
         printf("Failed to allocated memory to buffer\n");
-        goto exit;
+        exit(EXIT_FAILURE); 
     }
-    close_file_handler(file);
+    fclose(file->fptr);
     return file;
-
-    exit:
-        close_file_handler(file);
-        free(file);
-        exit(EXIT_FAILURE);
 }
 
 void write_file(char *path, char *buffer, int size)
@@ -64,9 +58,4 @@ int get_file_size(file_handler_t *file)
         return -1;
     file->file_size = size;
     return 0;
-}
-
-void close_file_handler(const file_handler_t *file)
-{
-    fclose(file->fptr);
 }

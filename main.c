@@ -10,7 +10,6 @@ int main()
         TODO: realoc just if needed, crap code. 
     */ 
     char *buffer = alloc_string(file->file_size * 2);
-    char *save_ptr_buffer = file->buffer;
     fmt_t ctx = {0};
     while (*file->buffer != '\0'){
         char cc = *file->buffer;
@@ -106,8 +105,5 @@ int main()
     }
     printf("\n");
     printf("------------------HEX BUFF--------------------------------\n");
-    free(save_ptr_buffer);
-    free(file);
-    free(buffer);
     return 0;
 }
