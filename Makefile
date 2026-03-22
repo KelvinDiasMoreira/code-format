@@ -28,7 +28,6 @@ default:
 		mkdir -p "$(BUILD_FOLDER)"; \
 	fi
 	$(CLEAR_TAG)
-	@echo $(CHECK_RESULT)
 	@echo "CURR_OS -> $(CURR_OS)"
 	$(CC) -Wall -Wextra -Werror $(SOURCES) -o $(TARGET)
 	./$(TARGET)
