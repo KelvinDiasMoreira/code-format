@@ -1,6 +1,33 @@
+#include <string.h>
 #include "file.h"
 #include "alloc.h"
 #include "format.h"
+
+void is_switch(char *b, fmt_t *ctx)
+{
+    /* shit code ahead  */
+    int ipos = ctx->bp - 1;
+    /* if "switch ()" dont will work....
+       need fix, but not now
+    */
+    while(b[ipos] != ' '){
+        ipos--;
+    }
+    /* maybe is a "switch" -> 6 */
+    if(((ctx->bp - 1) - (ipos + 1)) == 6){
+        char *tstr = alloc_string(sizeof(char) * 6);
+        int tstrc = 0;
+        for(int i = ipos + 1; i < ctx->bp - 1; i++){
+            tstr[tstrc] = b[i];
+            tstrc++;
+        }
+        tstr[tstrc + 1] = '\0';
+        if(strcmp(tstr, "switch") == 0){
+            ctx->swt = 1;
+        }
+        free(tstr);
+    }
+}
 
 /*
     Move buffer and file buffer
@@ -53,6 +80,7 @@ int main()
             case '(':
                 ctx.fn = 1;
                 mbfb(cc, file, &ctx, buffer);
+                is_switch(buffer, &ctx);
                 break;
             case ')':
                 mbfb(cc, file, &ctx, buffer);

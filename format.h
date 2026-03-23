@@ -20,6 +20,10 @@ typedef struct FMT {
         Function
     */  
     char fn;
+    /*
+        Inside a switch statement ?
+    */
+    int swt;
 } fmt_t;
 
 void rts(char **buffer);
